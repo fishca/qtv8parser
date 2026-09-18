@@ -68,6 +68,26 @@ const QList<MetadataDescriptor>& Configuration::businessProcesses() const { retu
 QList<MetadataDescriptor>& Configuration::exchangePlans() { return m_exchangePlans; }
 const QList<MetadataDescriptor>& Configuration::exchangePlans() const { return m_exchangePlans; }
 
+QList<MetadataDescriptor> &Configuration::subsystem()
+{
+    return m_subsystem;
+}
+
+const QList<MetadataDescriptor> &Configuration::subsystem() const
+{
+    return m_subsystem;
+}
+
+QList<MetadataDescriptor> &Configuration::commonmodules()
+{
+    return m_commonmodules;
+}
+
+const QList<MetadataDescriptor> &Configuration::commonmodules() const
+{
+    return m_commonmodules;
+}
+
 // ---- Задачи ----
 QList<MetadataDescriptor>& Configuration::tasks() { return m_tasks; }
 const QList<MetadataDescriptor>& Configuration::tasks() const { return m_tasks; }

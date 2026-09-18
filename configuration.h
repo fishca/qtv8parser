@@ -37,6 +37,8 @@ public:
     QString configurationSynonym() const;
     void setConfigurationSynonym(const QString& synonym);
 
+    // ---- Константы ----
+
     // ---- Справочники ----
     QList<MetadataDescriptor>& catalogs();
     const QList<MetadataDescriptor>& catalogs() const;
@@ -44,6 +46,14 @@ public:
     // ---- Документы ----
     QList<MetadataDescriptor>& documents();
     const QList<MetadataDescriptor>& documents() const;
+
+    // ---- Журналы документов ----
+    QList<MetadataDescriptor>& documentJournals();
+    const QList<MetadataDescriptor>& documentJournals() const;
+
+    // ---- Перечисления ----
+    QList<MetadataDescriptor>& enums();
+    const QList<MetadataDescriptor>& enums() const;
 
     // ---- Отчеты ----
     QList<MetadataDescriptor>& reports();
@@ -57,33 +67,13 @@ public:
     QList<MetadataDescriptor>& chartsOfCharacteristicTypes();
     const QList<MetadataDescriptor>& chartsOfCharacteristicTypes() const;
 
-    // ---- Планы видов расчета ----
-    QList<MetadataDescriptor>& chartsOfCalculationTypes();
-    const QList<MetadataDescriptor>& chartsOfCalculationTypes() const;
-
-    // ---- Бизнес-процессы ----
-    QList<MetadataDescriptor>& businessProcesses();
-    const QList<MetadataDescriptor>& businessProcesses() const;
-
-    // ---- Планы обмена ----
-    QList<MetadataDescriptor>& exchangePlans();
-    const QList<MetadataDescriptor>& exchangePlans() const;
-
-    // ---- Задачи ----
-    QList<MetadataDescriptor>& tasks();
-    const QList<MetadataDescriptor>& tasks() const;
-
-    // ---- Журналы документов ----
-    QList<MetadataDescriptor>& documentJournals();
-    const QList<MetadataDescriptor>& documentJournals() const;
-
-    // ---- Перечисления ----
-    QList<MetadataDescriptor>& enums();
-    const QList<MetadataDescriptor>& enums() const;
-
     // ---- Планы счетов ----
     QList<MetadataDescriptor>& chartsOfAccounts();
     const QList<MetadataDescriptor>& chartsOfAccounts() const;
+
+    // ---- Планы видов расчета ----
+    QList<MetadataDescriptor>& chartsOfCalculationTypes();
+    const QList<MetadataDescriptor>& chartsOfCalculationTypes() const;
 
     // ---- Регистры сведений ----
     QList<MetadataDescriptor>& informationRegisters();
@@ -100,6 +90,30 @@ public:
     // ---- Регистры расчета ----
     QList<MetadataDescriptor>& calculationRegisters();
     const QList<MetadataDescriptor>& calculationRegisters() const;
+
+    // ---- Бизнес-процессы ----
+    QList<MetadataDescriptor>& businessProcesses();
+    const QList<MetadataDescriptor>& businessProcesses() const;
+
+    // ---- Задачи ----
+    QList<MetadataDescriptor>& tasks();
+    const QList<MetadataDescriptor>& tasks() const;
+
+    // ---- Планы обмена ----
+    QList<MetadataDescriptor>& exchangePlans();
+    const QList<MetadataDescriptor>& exchangePlans() const;
+
+    //======================================================
+    // ветка Общие
+
+    // ---- Подсистемы ----
+    QList<MetadataDescriptor>& subsystem();
+    const QList<MetadataDescriptor>& subsystem() const;
+
+    // ---- Общие модули ----
+    QList<MetadataDescriptor>& commonmodules();
+    const QList<MetadataDescriptor>& commonmodules() const;
+
 
     // ---- Критерии отбора ----
     QList<MetadataDescriptor>& filterCriteria();
@@ -161,6 +175,10 @@ private:
     QList<MetadataDescriptor> m_calculationRegisters;
     QList<MetadataDescriptor> m_filterCriteria;
     QList<MetadataDescriptor> m_settingsStorages;
+
+    // ветка общие
+    QList<MetadataDescriptor> m_subsystem;
+    QList<MetadataDescriptor> m_commonmodules;
 
     // Индексы (указатели валидны, пока QList не перевыделяет память)
     QHash<QUuid,   const MetadataDescriptor*> m_uuidIndex;

@@ -2,7 +2,7 @@
 //#include "vcl_utils.h"
 
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
+//#pragma package(smart_init)
 
 #define CHUNK 16384
 
