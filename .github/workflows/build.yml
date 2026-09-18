@@ -1,0 +1,71 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    name: Windows (MinGW, Release)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.7.2'
+          arch: 'win64_mingw'
+          cache: true
+
+      - name: Setup MinGW
+        uses: egor-tensin/setup-mingw@v2
+        with:
+          version: 11.2.0
+
+      - name: Configure CMake
+        run: |
+          cmake -B build -S . `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DCMAKE_PREFIX_PATH="$env:Qt6_DIR" `
+            -G "MinGW Makefiles"
+        shell: pwsh
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+        shell: pwsh
+
+      - name: Deploy Qt dependencies
+        run: |
+          $exe = Get-ChildItem -Path build -Recurse -Filter "qtv8parser.exe" | Select-Object -First 1
+          & "$env:Qt6_DIR\bin\windeployqt.exe" `
+              --release --no-translations --no-system-d3d-compiler `
+              --no-opengl-sw --compiler-runtime $exe.FullName
+        shell: pwsh
+
+      - name: Copy licenses
+        run: |
+          $exe = Get-ChildItem -Path build -Recurse -Filter "qtv8parser.exe" | Select-Object -First 1
+          Copy-Item LICENSES.txt -Destination (Split-Path $exe.FullName) -ErrorAction SilentlyContinue
+        shell: pwsh
+
+      - name: Package
+        run: |
+          $exe = Get-ChildItem -Path build -Recurse -Filter "qtv8parser.exe" | Select-Object -First 1
+          $dir = Split-Path $exe.FullName
+          Compress-Archive -Path "$dir\*" -DestinationPath "qtv8parser-windows.zip"
+        shell: pwsh
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: qtv8parser-windows
+          path: qtv8parser-windows.zip
+          retention-days: 30
