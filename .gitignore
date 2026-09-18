@@ -1,0 +1,49 @@
+# ---- Сборка ----
+build/
+build-*/
+out/
+bin/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# ---- Qt ----
+*.pro.user
+*.pro.user.*
+*.qmlc
+*.jsc
+Makefile
+Makefile.*
+cmake-build-*/
+
+# ---- IDE ----
+.vscode/
+.idea/
+*.swp
+*.autosave
+
+# ---- Прочее ----
+*.log
+*.tmp
+Thumbs.db
+.DS_Store
+
+# ---- Не коммитим сгенерированные файлы ----
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+
+# Сборка сторонних библиотек
+third_party/*/build/
+third_party/*/*.o
+third_party/*/*.obj
+third_party/*/*.a
+third_party/*/*.lib
+third_party/*/*.dll
+third_party/*/*.so

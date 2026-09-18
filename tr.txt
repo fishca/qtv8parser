@@ -1,0 +1,74 @@
+
+void MainWindow::populateTree()
+{
+    m_model = new QStandardItemModel(this);
+    m_model->setHorizontalHeaderLabels(QStringList() << "Имя");
+
+    // Создаем корневой узел
+    m_rootItem = new QStandardItem(QIcon(":/icons/folder.png"), "Конфигурация");
+    m_model->appendRow(m_rootItem);
+
+    // Лямбда-функция для быстрого создания категорий и сохранения их в карту
+    auto addCategory = [this](const QString& name, QStandardItem* parent = nullptr) -> QStandardItem* {
+        if (!parent) parent = m_rootItem;
+        QStandardItem* item = new QStandardItem(name);
+        parent->appendRow(item);
+        m_categoryNodes.insert(name, item); // Сохраняем указатель по имени
+        return item;
+    };
+
+    // ----- Создаем категории верхнего уровня -----
+    QStandardItem* generalNode = addCategory("Общие");
+    addCategory("Константы");
+    addCategory("Справочники");
+    addCategory("Документы");
+    addCategory("Журналы документов");
+    addCategory("Перечисления");
+    addCategory("Отчеты");
+    addCategory("Обработки");
+    addCategory("Планы видов характеристик");
+    addCategory("Планы счетов");
+    addCategory("Планы видов расчета");
+    addCategory("Регистры сведений");
+    addCategory("Регистры накопления");
+    addCategory("Регистры бухгалтерии");
+    addCategory("Регистры расчета");
+    addCategory("Бизнес-процессы");
+    addCategory("Задачи");
+    addCategory("Внешние источники данных");
+
+    // ----- Добавляем подкатегории для "Общие" -----
+    if (generalNode) {
+        addCategory("Подсистемы", generalNode);
+        addCategory("Общие модули", generalNode);
+        addCategory("Параметры сеанса", generalNode);
+        addCategory("Роли", generalNode);
+        addCategory("Общие реквизиты", generalNode);
+        addCategory("Планы обмена", generalNode);
+        addCategory("Критерии отбора", generalNode);
+        addCategory("Подписки на события", generalNode);
+        addCategory("Регламентные задания", generalNode);
+        addCategory("Функциональные опции", generalNode);
+        addCategory("Параметры функциональных опций", generalNode);
+        addCategory("Определяемые типы", generalNode);
+        addCategory("Хранилища настроек", generalNode);
+        addCategory("Общие формы", generalNode);
+        addCategory("Общие команды", generalNode);
+        addCategory("Группы команд", generalNode);
+        addCategory("Интерфейсы", generalNode);
+        addCategory("Общие макеты", generalNode);
+        addCategory("Общие картинки", generalNode);
+        addCategory("XDTO-пакеты", generalNode);
+        addCategory("Web-сервисы", generalNode);
+        addCategory("HTTP-сервисы", generalNode);
+        addCategory("WS-ссылки", generalNode);
+        addCategory("Сервисы интеграции", generalNode);
+        addCategory("Элементы стиля", generalNode);
+        addCategory("Стили", generalNode);
+        addCategory("Языки", generalNode);
+    }
+
+    // Устанавливаем модель в QTreeView
+    ui->treeView->setModel(m_model);
+    ui->treeView->resizeColumnToContents(0);
+}

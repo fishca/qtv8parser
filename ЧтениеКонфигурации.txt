@@ -1,0 +1,58 @@
+[1] Создание                     ← CfParserWorker::process (рабочий поток)
+     auto config = make_shared<Configuration>();
+
+[2] Наполнение дескрипторами     ← get_cf_name_work (рабочий поток)
+     config.addCatalog(desc);
+     config.addDocument(desc);
+     ...
+
+[3] Построение индексов          ← config->rebuildIndices() (рабочий поток)
+
+[4] Передача в GUI               ← emit parsingFinished(...)
+
+[5] Только чтение                ← MainWindow, дерево, поиск (GUI-поток)
+     config.catalogs()
+     config.findByUuid(...)
+
+[6] Уничтожение                  ← при закрытии сессии или загрузке новой
+     (автоматически через shared_ptr)
+
+Найден справочник: "Справочник1_Тестовый"  c id:  "e51aa14c-a150-43cc-bfb2-f1dc2747e427"
+Найден справочник: "Справочник1_Тестовый1"  c id:  "e6344ec8-a3b5-433f-b3b1-157c935bf6cb"
+Найден справочник: "Справочник1_Тестовый2"  c id:  "b7ee0335-121f-472c-b39c-57c07c2e1976"
+Найден справочник: "Справочник1_Тестовый3"  c id:  "ba9dcca4-9f8f-463e-a588-034c40e76ff3"
+
+
+
+
+bool get_cf_name_work(v8catalog* cf, OneC::Metadata::Configuration& config)
+{
+    if (!cf) return false;
+
+    v8file* file = cf->GetFirst();
+    while (file) {
+        QString fileName = file->GetName();   // внутреннее имя в .cf
+
+        // Разбираем заголовок объекта — только лёгкие поля
+        QString name, synonym, type;
+        QUuid   uuid;
+        if (!parseObjectHeader(file, name, synonym, uuid, type)) {
+            file = file->GetNext();
+            continue;
+        }
+
+        // ✅ Формируем дескриптор и кладём его в нужный список Configuration
+        OneC::Metadata::MetadataDescriptor desc(name, synonym, uuid, type, fileName);
+
+        if (type == "Catalog")           config.addCatalog(desc);
+        else if (type == "Document")     config.addDocument(desc);
+        else if (type == "Report")       config.addReport(desc);
+        else if (type == "DataProcessor")config.addDataProcessor(desc);
+        else if (type == "CommonModule") config.addCommonModule(desc);
+        // ... остальные типы ...
+
+        file = file->GetNext();
+    }
+
+    return true;
+}     
