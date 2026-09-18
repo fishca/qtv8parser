@@ -47,3 +47,9 @@ third_party/*/*.a
 third_party/*/*.lib
 third_party/*/*.dll
 third_party/*/*.so
+
+# Qt Creator
+.qtcreator/
+*.user
+CMakeLists.txt.user*
+
