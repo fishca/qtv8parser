@@ -16,9 +16,11 @@ at http://mozilla.org/MPL/2.0/.
 
 
 #include "V8File.h"
+#include <cstring>
 #include "VersionFile.h"
 #include <iostream>
 #include <sstream>
+
 //#include <boost/iostreams/device/array.hpp>
 //#include <boost/iostreams/stream.hpp>
 #include <utility>
