@@ -34,7 +34,7 @@ jobs:
         run: |
           cmake -B build -S . `
             -DCMAKE_BUILD_TYPE=Release `
-            -DCMAKE_PREFIX_PATH="$env:Qt6_DIR" `
+            -DCMAKE_PREFIX_PATH="$env:QT_ROOT_DIR" `
             -G "MinGW Makefiles"
         shell: pwsh
 
@@ -45,7 +45,9 @@ jobs:
       - name: Deploy Qt dependencies
         run: |
           $exe = Get-ChildItem -Path build -Recurse -Filter "qtv8parser.exe" | Select-Object -First 1
-          & "$env:Qt6_DIR\bin\windeployqt.exe" `
+          Write-Host "Found exe: $($exe.FullName)"
+          Write-Host "Qt root: $env:QT_ROOT_DIR"
+          & "$env:QT_ROOT_DIR\bin\windeployqt.exe" `
               --release --no-translations --no-system-d3d-compiler `
               --no-opengl-sw --compiler-runtime $exe.FullName
         shell: pwsh
