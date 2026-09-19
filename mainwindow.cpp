@@ -576,7 +576,7 @@ QIcon MainWindow::iconForType(const QString& metadataType) const
     auto* style = QApplication::style();
 
     // Справочники, документы, отчёты — «файлы и папки»
-    if (metadataType == "Справочник")              return QIcon(":/icons/icons/abacus.png");
+    if (metadataType == "Справочник")              return QIcon(":/icons/icons/blue-document-bookmark.png");
     if (metadataType == "Документ")             return QIcon(":/icons/icons/blue-document--pencil.png");
     if (metadataType == "ЖурналДокументов")      return style->standardIcon(QStyle::SP_FileDialogListView);
     if (metadataType == "Отчет")               return style->standardIcon(QStyle::SP_FileDialogDetailedView);
